@@ -1,6 +1,7 @@
 import React from "react"
 
 export default function Media({ url }) {
+    if(`${url}`.includes('youtube') === true) {
 return <div className = "video-responsive">
     <iframe
     width="853"
@@ -10,6 +11,14 @@ return <div className = "video-responsive">
     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
     allowFullScreen
     title="Embedded youtube" />;
-</div>
+    </div>
+    } else {
+        return <div className= "image">
+            <img src={`${url}`}></img>
+        </div>
+    }
+    
+
+
 
 }
