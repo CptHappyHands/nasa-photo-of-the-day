@@ -41,7 +41,7 @@ useEffect(() => {
   }
  return (
   <div className="App">
-    <Search search={date} onSubmit={event => dateUpdateHandler(event.target.value)} />
+    <Search date={date} onSubmit={event => dateUpdateHandler(event.target.value)} />
     <Title title={newData.title} />
     <Media url={newData.url} />
     <Explanation explanation={newData.explanation} />

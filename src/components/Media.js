@@ -17,8 +17,5 @@ return <div className = "video-responsive">
             <img src={`${url}`}></img>
         </div>
     }
-    
-
-
 
 }
