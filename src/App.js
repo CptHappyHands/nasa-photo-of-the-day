@@ -1,15 +1,86 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
+import axios from 'axios'
+import Title from './components/Title'
+import Media from "./components/Media";
+import Explanation from "./components/Explanation"
+import Search from "./components/Search"
 
-function App() {
-  return (
-    <div className="App">
-      <p>
-        Read through the instructions in the README.md file to build your NASA
-        app! Have fun <span role="img" aria-label='go!'>🚀</span>!
-      </p>
-    </div>
-  );
+// import Date from "./components/Date"
+// import ReactPlayer from 'react-player'
+
+export default function App() {
+
+  let today = new Date();
+  let dateEl = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+(today.getDate());
+  console.log(dateEl)
+
+const [newData, setNewData] = useState([])
+const [date, setDate] = useState(dateEl)
+
+
+const NASA_API = `https://api.nasa.gov/planetary/apod?date=${date}&api_key=bNNrfpIwi4Fk8Jt28AUa72B4jTgBf5J8f9b6V7s2`
+
+
+ const updateData = (API) => {
+  axios.get(API)
+  .then(res => {
+    setNewData(res.data)
+   
+    return () => console.log('Cleanup');
+  })
+  .catch(err => console.log(err))
 }
 
-export default App;
+useEffect(() => {
+  updateData(NASA_API)
+  }, [NASA_API])
+
+  const dateUpdateHandler = (e) => {
+    setDate(e)
+  }
+ return (
+  <div className="App">
+    <Search date={date} onSubmit={event => dateUpdateHandler(event.target.value)} />
+    <Title title={newData.title} />
+    <Media url={newData.url} />
+    <Explanation explanation={newData.explanation} />
+  </div>
+);
+}
+
+// export default App;
+
+
+// useEffect(() => {
+//   axios.get(`https://api.nasa.gov/planetary/apod?date=${date}&api_key=bNNrfpIwi4Fk8Jt28AUa72B4jTgBf5J8f9b6V7s2`)
+//   .then(res => {
+//     console.log(res.data)
+//     setNewData(res.data)
+    
+//     return () => console.log('Cleanup');
+//   })
+//   .catch(err => console.log(err))
+//  }, [])
+
+// const searchData = (e) => {
+// e.preventDefault();
+// setDate(e.target.value)
+// setNewData(`https://api.nasa.gov/planetary/apod?date=${date}&api_key=bNNrfpIwi4Fk8Jt28AUa72B4jTgBf5J8f9b6V7s2`)
+// }
+
+//   return (
+//     <div className="App">
+//       <Search search={newData.date, date} onSubmit={searchData}/>
+//       <h1>
+//         Nasa Photo of the Day, {date} <span role="img" aria-label='go!'>🚀</span>!
+//       </h1>
+//       <Title title={newData.title}/>
+//       <Media url={newData.url}/>
+//       {/* <Date date={newData.date}/> */}
+//       <Explanation explanation={newData.explanation}/>
+//     </div>
+//   );
+
+
+// }
